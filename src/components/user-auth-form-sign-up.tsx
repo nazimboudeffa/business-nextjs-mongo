@@ -29,6 +29,24 @@ export function UserAuthFormSignUp() {
 
     async function onSubmit(cred : FormData) {
         setIsLoading(true)
+
+        try {
+            const res = await fetch("/api/auth/signup", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(cred),
+            })
+
+            if (!res.ok) {
+                throw new Error(await res.text())
+            }
+
+            setIsLoading(false)
+
+        } catch (error) {
+            console.error(error)
+            setIsLoading(false)
+        }
     }
 
     return (
