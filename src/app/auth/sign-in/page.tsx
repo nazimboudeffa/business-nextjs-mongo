@@ -1,3 +1,4 @@
+import { UserAuthFormSignIn } from "@/components/user-auth-form-sign-in"
 import Link from "next/link";
 
 export default async function SignIn() {
@@ -24,7 +25,7 @@ export default async function SignIn() {
                         By signing in, you agree to our <Link href="/tos"><u>Terms of Service</u></Link> and <Link href="/privacy-policy"><u>Privacy Policy</u></Link>
                     </p>
                 </div>
-
+                <UserAuthFormSignIn />
                 <p className="px-8 text-center text-sm text-muted-foreground">
                     <Link
                         href="/auth/sign-up"

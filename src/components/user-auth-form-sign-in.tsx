@@ -17,7 +17,7 @@ import { useRouter } from 'next/navigation'
 
 type FormData = z.infer<typeof singUpSchema>
 
-export function UserAuthFormSignUp() {
+export function UserAuthFormSignIn() {
 
     const router = useRouter()
 
@@ -35,7 +35,7 @@ export function UserAuthFormSignUp() {
         setIsLoading(true)
 
         try {
-            const res = await fetch("/api/auth/signup", {
+            const res = await fetch("/api/auth/signin", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(cred),
@@ -121,7 +121,7 @@ export function UserAuthFormSignUp() {
                         {isLoading && (
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                         )}
-                        Sign up with Email
+                        Sign in with Email
                     </button>
                 </div>
             </form>
