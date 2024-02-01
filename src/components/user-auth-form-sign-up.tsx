@@ -53,7 +53,6 @@ export function UserAuthFormSignUp() {
 			}
 
 			localStorage.setItem("business-user", JSON.stringify(data));
-
             router.push('/dashboard')
 
         } catch (error) {
