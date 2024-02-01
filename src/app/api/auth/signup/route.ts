@@ -9,7 +9,7 @@ export async function POST (request: NextRequest) {
             },
             body: JSON.stringify(body)
         })
-    const user = await res.text()
+    const data = await res.text()
    
-    return NextResponse.json({ data: user }, { status: 200 });
+    return NextResponse.json({ data: data }, { status: 200 });
 }

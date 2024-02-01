@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Loader2 } from "lucide-react"
@@ -13,9 +13,14 @@ import { buttonVariants } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
+import { parseCookies } from "nookies"
+import { useRouter } from 'next/navigation'
+
 type FormData = z.infer<typeof singUpSchema>
 
 export function UserAuthFormSignUp() {
+
+    const router = useRouter()
 
     const {
         register,
@@ -43,11 +48,27 @@ export function UserAuthFormSignUp() {
 
             setIsLoading(false)
 
+            const cookies = parseCookies()
+            const token = cookies['jwt']
+
+            if (token) {
+                router.push('/dashboard')
+            }
+
         } catch (error) {
             console.error(error)
             setIsLoading(false)
         }
     }
+
+    useEffect(() => {
+        const cookies = parseCookies()
+        const token = cookies['jwt']
+
+        if (token) {
+            router.push('/dashboard')
+        }
+    },[router])
 
     return (
         <div className="grid gap-6">
