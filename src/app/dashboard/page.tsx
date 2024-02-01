@@ -12,7 +12,9 @@ export default function Dashboard() {
         const cookies = parseCookies()
         const token = cookies['jwt']
 
-        if (token) {
+        console.log(token)
+
+        if (!token) {
             router.push('/auth/sign-in')
         }
     },[router])
