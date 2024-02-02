@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
 import { useRouter } from 'next/navigation'
+import { signIn } from "next-auth/react";
 
 type FormData = z.infer<typeof singUpSchema>
 
@@ -35,24 +36,28 @@ export function UserAuthFormSignUp() {
         setIsLoading(true)
 
         try {
-            const res = await fetch("/api/auth/signup", {
+            const res1 = await fetch("/api/auth/signup", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(cred),
             })
 
-            if (!res.ok) {
-                throw new Error(await res.text())
+            if (!res1.ok) {
+                throw new Error(await res1.text())
+            }
+
+            const res2 = await signIn("credentials", {
+                email: cred.email,
+                password: cred.password,
+                redirect: false,
+            });
+            
+            if (res2?.error) {
+                throw new Error(res2.error)
             }
 
             setIsLoading(false)
-
-            const data = await res.json();
-			if (data.error) {
-				throw new Error(data.error);
-			}
-
-			localStorage.setItem("business-user", JSON.stringify(data));
+			
             router.push('/dashboard')
 
         } catch (error) {
