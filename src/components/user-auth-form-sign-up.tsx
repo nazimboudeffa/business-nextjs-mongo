@@ -61,15 +61,6 @@ export function UserAuthFormSignUp() {
         }
     }
 
-    useEffect(() => {
-        
-        const cookie = localStorage.getItem("business-user")
-        if (cookie) {
-            router.push('/dashboard')
-        }
-
-    },[router])
-
     return (
         <div className="grid gap-6">
             <form onSubmit={handleSubmit(onSubmit)}>
