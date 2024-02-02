@@ -1,7 +1,14 @@
 import { UserAuthFormSignIn } from "@/components/user-auth-form-sign-in"
 import Link from "next/link";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { redirect } from 'next/navigation'
 
 export default async function SignIn() {
+
+    const session = await getServerSession(authOptions);
+
+    if (session) redirect("/dashboard");
 
     return (
         <div className="flex h-screen w-screen flex-col items-center justify-center">
