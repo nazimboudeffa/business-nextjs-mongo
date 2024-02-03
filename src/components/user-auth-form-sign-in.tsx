@@ -60,7 +60,10 @@ export function UserAuthFormSignIn() {
 
     const handleSignInWithGoogle = async() => {
         setIsGoogleLoading(true)
-
+        const res = await signIn("google")
+        if (res?.error) {
+            console.error(res.error)
+        }
         setIsGoogleLoading(false)
     }
 
