@@ -1,3 +1,6 @@
+import { connect } from "@/utils/config/dbConfig";
+import User from "@/utils/models/auth";
+import bcryptjs from "bcryptjs";
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -11,22 +14,22 @@ export const authOptions: NextAuthOptions = {
             email: string;
             password: string;
           };
-  
           try {
-            const res = await fetch(process.env.BACKEND_URL+'/auth/sign-in', {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify({email: email, password: password})
-              })
-            if (!res.ok) {
-                throw new Error('Error');
+            await connect();
+            const user = await User.findOne({ email });
+            if (!user) {
+              return null;
             }
-            const data = await res.json();
-            return data.user;
+            const passwordsMatch = await bcryptjs.compare(
+              password,
+              user.password
+            );
+            if (!passwordsMatch) {
+              return null;
+            }
+            return user;
           } catch (error) {
-            console.log("Error: ", error);
+            console.log("Error:", error);
           }
         },
       }),

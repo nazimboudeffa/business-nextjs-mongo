@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Loader2 } from "lucide-react"
@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Icons } from "@/components/icons"
 
 import { useRouter } from 'next/navigation'
 import { signIn } from "next-auth/react";
@@ -31,6 +32,7 @@ export function UserAuthFormSignUp() {
     })
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [isGoogleLoading, setIsGoogleLoading] = useState<boolean>(false)
 
     async function onSubmit(cred : FormData) {
         setIsLoading(true)
@@ -66,10 +68,16 @@ export function UserAuthFormSignUp() {
         }
     }
 
+    const handleSignInWithGoogle = async() => {
+        setIsGoogleLoading(true)
+
+        setIsGoogleLoading(false)
+    }
+
     return (
-        <div className="grid gap-6">
+        <div className="grid gap-6 max-w-[400px] md:max-w-[500px] mx-auto">
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="grid gap-2 max-w-[400px] md:max-w-[500px] mx-auto">
+                <div className="grid gap-2">
                     <div className="grid gap-1">
                         <Label className="sr-only" htmlFor="email">
                             Email
@@ -120,6 +128,32 @@ export function UserAuthFormSignUp() {
                     </button>
                 </div>
             </form>
+            <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                    <span className="w-full border-t" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-background px-2 text-muted-foreground">
+                        Or continue with
+                    </span>
+                </div>
+            </div>
+            <button
+                type="button"
+                className={cn(buttonVariants({ variant: "outline" }))}
+                onClick={() => {
+                    setIsGoogleLoading(true)
+                    handleSignInWithGoogle()
+                }}
+                disabled={isLoading || isGoogleLoading}
+            >
+                {isGoogleLoading ? (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                    <Icons.google className="mr-2 h-4 w-4" />
+                )}{" "}
+                Sign In with Google
+            </button>
         </div>
     )
 }

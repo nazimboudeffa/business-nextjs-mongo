@@ -1,15 +1,39 @@
-import { NextResponse, NextRequest } from 'next/server';
+import { connect } from "@/utils/config/dbConfig";
+import User from "@/utils/models/auth";
+import bcryptjs from "bcryptjs";
+import { NextResponse, NextRequest } from "next/server";
 
-export async function POST (request: NextRequest) {
-    const body = await request.json();
-    const res = await fetch(process.env.BACKEND_URL+'/auth/sign-up', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(body)
-        })
-    const data = await res.text()
-   
-    return NextResponse.json({ data: data }, { status: 200 });
+connect();
+
+export async function POST(request: NextRequest) {
+  try {
+    const { email, password } = await request.json();
+
+    const user = await User.findOne({ email });
+
+    if (user) {
+      return NextResponse.json(
+        { error: "User already exists" },
+        { status: 400 }
+      );
+    }
+
+    const salt = await bcryptjs.genSalt(10);
+    const hashedPassword = await bcryptjs.hash(password, salt);
+
+    const newUser = new User({
+      email,
+      password: hashedPassword,
+    });
+
+    const savedUser = await newUser.save();
+
+    return NextResponse.json({
+      message: "User created successfully",
+      success: true,
+      savedUser,
+    });
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
 }
