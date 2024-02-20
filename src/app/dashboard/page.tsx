@@ -1,21 +1,31 @@
 "use client"
+import Header from '@/components/Header'
+import SideNav from '@/components/SideNav'
+import SideNavSticky from '@/components/SideNavSticky'
 
-import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
-import { Button } from '@/components/ui/button'
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react"
+import { redirect } from 'next/navigation';
 
-export default function Dashboard() {
+function Dashboard () {
 
-    const { data: session } = useSession();
+        const { data: session } = useSession();
+
+        if (!session) {
+                redirect('/');
+        }
+
 
     return (
-        <div>
-            <h1>Dashboard</h1>
-            {session && <p className="text-2xl tracking-normal py-10 font-semibold">{session.user?.email}</p>}
-            <Button onClick={() => signOut()}>
-                Sign Out
-            </Button>
-        </div>
+        <>
+            <Header session = { session } />
+            <div className="grid h-screen min-h-screen w-full overflow-hidden md:grid-cols-[auto_1fr]">
+                    <SideNav />
+                    <div className="flex flex-col">
+                            <SideNavSticky />                
+                    </div>
+            </div>
+        </>
     )
 }
+
+export default Dashboard
