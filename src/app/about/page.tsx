@@ -2,11 +2,15 @@
 import Header from "@/components/Header"
 import { fontHeading } from "@/lib/fonts"
 import Image from 'next/image'
+import { useSession } from "next-auth/react";
 
 function About() {
+
+    const { data: session } = useSession();
+    
     return (
         <>
-        <Header />
+        <Header session = { session } />
             <main className="mt-10 flex flex-col items-center gap-5 text-center">
                 <h1
                     className={`text-3xl font-extrabold leading-tight tracking-tighter sm:text-3xl md:text-5xl lg:text-6xl ${fontHeading.variable}`}

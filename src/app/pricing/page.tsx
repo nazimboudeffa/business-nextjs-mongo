@@ -1,3 +1,4 @@
+"use client"
 import Link from "next/link"
 import { CheckCircle2, Coffee, Heart, CircleDollarSign } from "lucide-react"
 
@@ -6,9 +7,13 @@ import { buttonVariants } from "@/components/ui/button"
 import Header from "@/components/Header"
 
 import Image from 'next/image'
-import tipeee from "/public/tipeee_logo_red.svg"
+import tipeee from "../../../public/tipeee_logo_red.svg"
+
+import { useSession } from "next-auth/react";
 
 function Pricing() {
+
+    const { data: session } = useSession();
 
     const pricingPlans = [
         {
@@ -41,7 +46,7 @@ function Pricing() {
 
     return (
         <>
-        <Header />
+        <Header session = { session } />
             <div className="mt-10 flex flex-col items-center gap-10 text-center">
                 <h1
                     className={`text-3xl font-extrabold leading-tight tracking-tighter sm:text-3xl md:text-5xl lg:text-6xl ${fontHeading.variable}`}

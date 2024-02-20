@@ -1,14 +1,19 @@
+"use client"
 import Header from "@/components/Header"
 import Link from "next/link"
 import { XCircle, CheckCircle2 } from 'lucide-react';
 import { fontHeading } from "@/lib/fonts"
 
+import { useSession } from "next-auth/react";
+
 function Solutions () {
+
+    const { data: session } = useSession();
 
     const solutions = [
         {
             id: "0",
-            name: "Anouncements",
+            name: "Businesses",
             description:
                 "Share business announcements and get partners.",
             icon: <XCircle />,
@@ -19,10 +24,10 @@ function Solutions () {
             id: "1",
             name: "SEO",
             description:
-                "Manage your sites.",
-            icon: <XCircle />,
-            color: "red",
-            link: "/",
+                "Better rank your sites.",
+            icon: <CheckCircle2 />,
+            color: "green",
+            link: "/solutions/seo",
         },
         {
             id: "2",
@@ -100,7 +105,7 @@ function Solutions () {
     
     return (
         <>
-        <Header />
+        <Header session = { session } />
         <header className="mt-10 flex flex-col items-center gap-10 text-center">
             <h1
                 className={`text-3xl font-extrabold leading-tight tracking-tighter sm:text-3xl md:text-5xl lg:text-6xl ${fontHeading.variable}`}

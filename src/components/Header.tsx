@@ -1,10 +1,11 @@
 "use client"
 import Link from "next/link"
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import MobileMenu from "./MobileMenu";
-import { useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
+import type { Session } from 'next-auth';
 
-function Header () {
+function Header ({ session } : Readonly<{ session: Session | null }>) {
 
     const [open, setOpen] = useState<boolean>(false);
 
@@ -56,6 +57,16 @@ function Header () {
             </div>
 
             <div className="flex items-center gap-4">
+                {session ? (
+                    <div className="flex items-center gap-4">
+                        <Link href="/dashboard" className="text-sm font-medium text-gray-500 hover:text-gray-500/75">
+                            Dashboard
+                        </Link>
+                        <button onClick={()=>signOut()} className="rounded-full bg-teal-600 hover:bg-teal-700 px-5 py-2.5 text-sm font-medium text-white shadow">
+                            Logout
+                        </button>
+                    </div>
+                    ) : (
                 <div className="sm:flex sm:gap-4">
                 <Link href="/auth/sign-in" className="rounded-full hover:bg-teal-600 px-5 py-2.5 text-sm font-medium hover:text-white shadow mr-1">
                     Login
@@ -64,6 +75,7 @@ function Header () {
                     Register
                 </Link>
                 </div>
+                )}
 
                 <div className="block md:hidden">
                 <button type="button" className="p-2 lg:hidden" onClick={()=>setOpen(!open)}>
