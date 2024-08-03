@@ -1,14 +1,16 @@
+"use client"
 import { UserAuthFormSignIn } from "@/components/user-auth-form-sign-in"
 import Link from "next/link";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import { redirect } from 'next/navigation'
+import { useSession } from "next-auth/react";
 
-export default async function SignIn() {
+export default function SignIn() {
 
-    const session = await getServerSession(authOptions);
+    const { data: session } = useSession();
 
-    if (session) redirect("/dashboard");
+    if (session) {
+            redirect('/dashboard');
+    }
 
     return (
         <div className="flex h-screen w-screen flex-col items-center justify-center">
@@ -33,14 +35,6 @@ export default async function SignIn() {
                     </p>
                 </div>
                 <UserAuthFormSignIn />
-                <p className="px-8 text-center text-sm text-muted-foreground">
-                    <Link
-                        href="/auth/sign-up"
-                        className="hover:text-brand underline underline-offset-4"
-                    >
-                        Don&apos;t have an account? Sign Up
-                    </Link>
-                </p>
             </div>
         </div>
     )

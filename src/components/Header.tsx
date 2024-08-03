@@ -71,9 +71,6 @@ function Header ({ session } : Readonly<{ session: Session | null }>) {
                 <Link href="/auth/sign-in" className="rounded-full hover:bg-teal-600 px-5 py-2.5 text-sm font-medium hover:text-white shadow mr-1">
                     Login
                 </Link>
-                <Link href="/auth/sign-up" className="rounded-full bg-teal-600 hover:bg-teal-700 px-5 py-2.5 text-sm font-medium text-white shadow">
-                    Register
-                </Link>
                 </div>
                 )}
 
