@@ -36,7 +36,7 @@ function Pricing() {
             href: "https://fr.tipeee.com/nazimboudeffa",
             subtitle: "donate what you want",
             highlight: true,
-            callToAction: "Get Started",
+            callToAction: "Donate",
             features: [
                 "Access to premium services and features",
                 "Support the development",
