@@ -101,6 +101,15 @@ function Solutions () {
             color: "red",
             link: "/",
         },
+        {
+            id: "9",
+            name: "Devis",
+            description:
+                "Créez des devis en ligne.",
+            icon: <CheckCircle2 />,
+            color: "green",
+            link: "/",
+        },
     ]
     
     return (
